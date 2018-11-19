@@ -5,8 +5,22 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Scanner;
 
+/**
+ * Класс для открывания консоли пользователю, выбора из списка действий
+ *
+ * @author Воротников Дмитрий
+ */
 public class Main {
+    /**
+     * статическая переменная котроая определяет класс Repository
+     */
     static Repository repository = new Repository();
+
+    /**
+     * главный метод для запуска
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         boolean bool = true;
         while (bool) {
@@ -39,6 +53,9 @@ public class Main {
 
     }
 
+    /**
+     * Создание нового человека
+     */
     private static void NewPerson() {
         System.out.println("Введите имя:");
         Scanner scanner = new Scanner(System.in);
@@ -67,6 +84,9 @@ public class Main {
 
     }
 
+    /**
+     * Просмотр всех людей в репозитории
+     */
     private static void ViewPersons() {
         int length = repository.getLength();
         if (length == 0) {
@@ -85,6 +105,9 @@ public class Main {
 
     }
 
+    /**
+     * Удаления человека из репозитория по id
+     */
     private static void DeletePerson() {
         System.out.println("Введите id: ");
         Scanner scanner = new Scanner(System.in);
@@ -92,6 +115,9 @@ public class Main {
         repository.delete(id);
     }
 
+    /**
+     * Просмотр человека из репозитория по id
+     */
     private static void ViewPerson() {
         System.out.println("Введите id:");
         Scanner scanner = new Scanner(System.in);

@@ -1,25 +1,39 @@
+/**
+ * Репозиторий людей
+ * @author Воротников Дмитрий
+ */
 public class Repository {
 
+    /** массив людей */
     private Human[] array;
 
+    /**
+     * конструктор, который создаёт массив
+     */
     Repository() {
         array = new Human[0];
     }
 
-    private Human[] concatArray(Human[] sourceArr, Human[] destArr) {
-        int length = sourceArr.length + 1;
-        Human[] res = new Human[length];
-        System.arraycopy(sourceArr, 0, res, 0, sourceArr.length);
-        System.arraycopy(destArr, 0, res, sourceArr.length, destArr.length);
-        return res;
-    }
-
+    /**
+     * Вставляет созданового только что человека в массив
+     * @param human объект человека
+     */
     public void insert(Human human) {
         System.out.println("insert");
         Human[] oneHuman = {human};
-        this.array = concatArray(array, oneHuman);
+
+        int length = array.length + 1;
+        Human[] res = new Human[length];
+        System.arraycopy(array, 0, res, 0, array.length);
+        System.arraycopy(oneHuman, 0, res, array.length, array.length);
+
+        this.array = oneHuman;
     }
 
+    /**
+     * Удаляет чкеловека из массива
+     * @param id id под которым человек записан в массиве
+     */
     public void delete(int id) {
         for (int i = 0; this.array.length > i; ) {
             if (this.array[i].getId() == id) {
@@ -33,10 +47,19 @@ public class Repository {
         }
     }
 
+    /**
+     * Функция для получение длины массива
+     * @return возвращает длину массива
+     */
     public int getLength() {
         return this.array.length;
     }
 
+    /**
+     * Функция для получения объекта человека
+     * @param id id под которым человек записан в массиве
+     * @return возвращет объект человека
+     */
     public Human getHumanId(int id) {
         for (int i = 0; this.array.length > i; i++) {
             if(this.array[i].getId()==id){
@@ -46,6 +69,11 @@ public class Repository {
         return null;
     }
 
+    /**
+     * Функция для получения объекта челвека
+     * @param index указывает на место в массиве
+     * @return возвращает объект человека
+     */
     public Human getHumanIndex(int index){
         return array[index];
     }
