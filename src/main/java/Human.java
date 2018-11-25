@@ -2,25 +2,41 @@ import org.joda.time.LocalDate;
 
 /**
  * Класс со свойствами name, brd, sex, id, idHuman
+ *
  * @author Воротников Дмитрий
  */
 public class Human {
-    /** поле имени */
+    /**
+     * поле имени
+     */
     private String name;
-    /** поле дня рождения */
+    /**
+     * поле дня рождения
+     */
     private LocalDate brd;
-    /** поле пола */
+    /**
+     * поле пола
+     */
     private String sex;
-    /** поле id */
+    /**
+     * поле id
+     */
     private int id;
-    /** поле idб которое копится */
+    /**
+     * поле возраста
+     */
+    private int age;
+    /**
+     * поле idб которое копится
+     */
     private static int idHuman = 1;
 
     /**
      * Конструктор
+     *
      * @param name поле имени
-     * @param brd поле дня рождения
-     * @param sex поле пола
+     * @param brd  поле дня рождения
+     * @param sex  поле пола
      */
     Human(String name, LocalDate brd, String sex) {
         this.name = name;
@@ -32,6 +48,7 @@ public class Human {
 
     /**
      * функция для получения возраста
+     *
      * @return возвращает возраст
      */
     public Integer getAge() {
@@ -43,8 +60,13 @@ public class Human {
         return tempDate.getYear();
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     /**
      * функция получения id
+     *
      * @return возврщает id
      */
     public int getId() {
@@ -53,6 +75,7 @@ public class Human {
 
     /**
      * Процедура определения id
+     *
      * @param id
      */
     public void setId(int id) {
@@ -61,6 +84,7 @@ public class Human {
 
     /**
      * функция получения имени
+     *
      * @return возвращает имя
      */
     public String getName() {
@@ -69,6 +93,7 @@ public class Human {
 
     /**
      * Процедура определения имени
+     *
      * @param name
      */
     public void setName(String name) {
@@ -77,6 +102,7 @@ public class Human {
 
     /**
      * функция получения года рождения
+     *
      * @return возвращает год рождения
      */
     public LocalDate getBrd() {
@@ -85,6 +111,7 @@ public class Human {
 
     /**
      * Процедура определения года рождения
+     *
      * @param brd
      */
     public void setBrd(LocalDate brd) {
@@ -93,6 +120,7 @@ public class Human {
 
     /**
      * функция получения пола человека
+     *
      * @return возвращает пол человека
      */
     public String getSex() {
@@ -101,6 +129,7 @@ public class Human {
 
     /**
      * Процедура определения пола человека
+     *
      * @param sex
      */
     public void setSex(String sex) {
