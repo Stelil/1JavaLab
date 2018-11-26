@@ -1,3 +1,5 @@
+package com.JavaLab;
+
 import org.joda.time.LocalDate;
 
 /**
@@ -22,10 +24,6 @@ public class Human {
      * поле id
      */
     private int id;
-    /**
-     * поле возраста
-     */
-    private int age;
     /**
      * поле idб которое копится
      */
@@ -58,10 +56,6 @@ public class Human {
         LocalDate tempDate = new LocalDate().minusDays(day).minusMonths(month).minusYears(year);
 
         return tempDate.getYear();
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     /**

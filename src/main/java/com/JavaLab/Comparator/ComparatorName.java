@@ -1,6 +1,8 @@
+package com.JavaLab;
+
 import java.util.Comparator;
 
-class ComparatorName implements InterfaceComparator<Human>{
+class ComparatorName implements Comparator<Human>{
 
     @Override
     public int compare(Human a, Human b) {

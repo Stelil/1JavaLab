@@ -1,3 +1,5 @@
+package com.JavaLab;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +9,6 @@ import java.util.Scanner;
 
 /**
  * Класс для открывания консоли пользователю, выбора из списка действий
- *
  * @author Воротников Дмитрий
  */
 public class Main {
@@ -62,6 +63,9 @@ public class Main {
         }
     }
 
+    /**
+     * Создание стандартных людей
+     */
     static void addPersons() {
 
         LocalDate inputDate;
@@ -171,6 +175,9 @@ public class Main {
 
     }
 
+    /**
+     * Выбор сортировки
+     */
     private static void SortPerson() {
         System.out.println("Тип сортировки : \n " +
                 "1. Пузырьком \n " +
@@ -189,6 +196,9 @@ public class Main {
         }
     }
 
+    /**
+     * Поиск
+     */
     private static void SearchValue(){
         repository.searchValue();
     }

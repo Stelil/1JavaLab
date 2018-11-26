@@ -1,4 +1,8 @@
-public class ComparatorSex implements InterfaceComparator<Human> {
+package com.JavaLab;
+
+import java.util.Comparator;
+
+public class ComparatorSex implements Comparator<Human> {
 
     @Override
     public int compare(Human a, Human b) {
