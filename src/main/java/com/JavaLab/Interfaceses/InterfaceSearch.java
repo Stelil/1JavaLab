@@ -1,4 +1,4 @@
-package com.JavaLab;
+package com.JavaLab.Interfaceses;
 
 public interface InterfaceSearch {
 

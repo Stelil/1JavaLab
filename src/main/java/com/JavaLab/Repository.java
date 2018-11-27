@@ -1,7 +1,15 @@
 package com.JavaLab;
 
+import com.JavaLab.Checkers.Checker;
+import com.JavaLab.Checkers.CheckerName;
+import com.JavaLab.Comparator.ComparatorBrd;
+import com.JavaLab.Comparator.ComparatorSex;
+import com.JavaLab.Interfaceses.InterafaceSort;
+import com.JavaLab.Interfaceses.InterfaceSearch;
+import com.JavaLab.Sorters.Sort;
 import org.joda.time.format.DateTimeFormat;
 
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -9,18 +17,30 @@ import java.util.Scanner;
  *
  * @author Воротников Дмитрий
  */
-public class Repository implements com.JavaLab.InterafaceSort, com.JavaLab.InterfaceSearch {
+public class Repository {
 
     /**
      * массив людей
      */
     private Human[] array;
 
+    private Sort sort;
+
     /**
      * конструктор, который создаёт массив
      */
-    Repository() {
-        array = new Human[0];
+    Repository(Sort sort) {
+        this.array = new Human[0];
+        this.sort = sort;
+    }
+
+    private Human[] concat(Human[] a, Human[] b) {
+        int length = a.length + b.length;
+        Human[] res = new Human[length];
+        System.arraycopy(a, 0, res, 0, a.length);
+        System.arraycopy(b, 0, res, a.length, b.length);
+
+        return res;
     }
 
     /**
@@ -30,13 +50,7 @@ public class Repository implements com.JavaLab.InterafaceSort, com.JavaLab.Inter
      */
     public void insert(Human human) {
         Human[] oneHuman = {human};
-
-        int length = array.length + 1;
-        Human[] res = new Human[length];
-        System.arraycopy(array, 0, res, 0, array.length);
-        System.arraycopy(oneHuman, 0, res, array.length, oneHuman.length);
-
-        this.array = res;
+        this.array = concat(array, oneHuman);
     }
 
     /**
@@ -82,7 +96,7 @@ public class Repository implements com.JavaLab.InterafaceSort, com.JavaLab.Inter
     }
 
     /**
-     * Функция для получения объекта челвека
+     * Функция для получения объекта челoвека
      *
      * @param index указывает на место в массиве
      * @return возвращает объект человека
@@ -91,255 +105,21 @@ public class Repository implements com.JavaLab.InterafaceSort, com.JavaLab.Inter
         return array[index];
     }
 
-    @Override
-    public void bubbleSort() {
-        System.out.println("Отсортирoвать по : \n " +
-                "1. Имени \n " +
-                "2. Году рождения \n " +
-                "3. Возрасту \n " +
-                "4. Полу");
-        Scanner scanner = new Scanner(System.in);
-        int number = scanner.nextInt();
-        long startTime = System.currentTimeMillis();
-        long timeSpent;
-        switch (number) {
-            case 1:
-                com.JavaLab.ComparatorName comparatorName = new com.JavaLab.ComparatorName();
-                for (int i = array.length - 1; i > 0; i--) {
-                    for (int j = 0; j < i; j++) {
-                        int compare = comparatorName.compare(array[i], array[j]);
-                        if (compare < 0) {
-                            Human tmp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = tmp;
-                        }
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 2:
-                com.JavaLab.ComparatorBrd comparatorBrd = new com.JavaLab.ComparatorBrd();
-                for (int i = array.length - 1; i > 0; i--) {
-                    for (int j = 0; j < i; j++) {
-                        int compare = comparatorBrd.compare(array[i], array[j]);
-                        if (compare < 0) {
-                            Human tmp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = tmp;
-                        }
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 3:
-                com.JavaLab.ComparatorAge comparatorAge = new com.JavaLab.ComparatorAge();
-                for (int i = array.length - 1; i > 0; i--) {
-                    for (int j = 0; j < i; j++) {
-                        int compare = comparatorAge.compare(array[i], array[j]);
-                        if (compare < 0) {
-                            Human tmp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = tmp;
-                        }
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 4:
-                com.JavaLab.ComparatorSex comparatorSex = new com.JavaLab.ComparatorSex();
-                for (int i = array.length - 1; i > 0; i--) {
-                    for (int j = 0; j < i; j++) {
-                        int compare = comparatorSex.compare(array[i], array[j]);
-                        if (compare < 0) {
-                            Human tmp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = tmp;
-                        }
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-        }
+    public void sortBy(Comparator comparator) {
+        this.array = sort.sort(this.array, comparator);
     }
 
-    @Override
-    public void selectionSort() {
-        System.out.println("Отсортирoвать по : \n " +
-                "1. Имени \n " +
-                "2. Году рождения \n " +
-                "3. Возрасту \n " +
-                "4. Полу");
-        Scanner scanner = new Scanner(System.in);
-        int number = scanner.nextInt();
-        long startTime = System.currentTimeMillis();
-        long timeSpent;
-        switch (number) {
-            case 1:
-                com.JavaLab.ComparatorName comparatorName = new com.JavaLab.ComparatorName();
-
-                for (int i = 0; i < array.length; i++) {
-                    Human min = array[i];
-                    int min_i = i;
-                    for (int j = i + 1; j < array.length; j++) {
-                        if (comparatorName.compare(min, array[j]) > 0) {
-                            min = array[j];
-                            min_i = j;
-                        }
-                    }
-                    if (i != min_i) {
-                        Human tmp = array[i];
-                        array[i] = array[min_i];
-                        array[min_i] = tmp;
-                    }
-                }
-
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 2:
-                com.JavaLab.ComparatorBrd comparatorBrd = new com.JavaLab.ComparatorBrd();
-                for (int i = 0; i < array.length; i++) {
-                    Human min = array[i];
-                    int min_i = i;
-                    for (int j = i + 1; j < array.length; j++) {
-                        if (comparatorBrd.compare(min, array[j]) > 0) {
-                            min = array[j];
-                            min_i = j;
-                        }
-                    }
-                    if (i != min_i) {
-                        Human tmp = array[i];
-                        array[i] = array[min_i];
-                        array[min_i] = tmp;
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 3:
-                com.JavaLab.ComparatorAge comparatorAge = new com.JavaLab.ComparatorAge();
-                for (int i = 0; i < array.length; i++) {
-                    Human min = array[i];
-                    int min_i = i;
-                    for (int j = i + 1; j < array.length; j++) {
-                        if (comparatorAge.compare(min, array[j]) > 0) {
-                            min = array[j];
-                            min_i = j;
-                        }
-                    }
-                    if (i != min_i) {
-                        Human tmp = array[i];
-                        array[i] = array[min_i];
-                        array[min_i] = tmp;
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 4:
-                com.JavaLab.ComparatorSex comparatorSex = new com.JavaLab.ComparatorSex();
-                for (int i = 0; i < array.length; i++) {
-                    Human min = array[i];
-                    int min_i = i;
-                    for (int j = i + 1; j < array.length; j++) {
-                        if (comparatorSex.compare(min, array[j]) > 0) {
-                            min = array[j];
-                            min_i = j;
-                        }
-                    }
-                    if (i != min_i) {
-                        Human tmp = array[i];
-                        array[i] = array[min_i];
-                        array[min_i] = tmp;
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
+    public Human[] searchBy(Checker checker, Object value) {
+        Human[] check = new Human[1];
+        Human[] result = new Human[0];
+        for (int i = 0; this.array.length > i; i++) {
+            if (checker.check(this.array[i], value)) {
+                check[0] = this.array[i];
+                result = concat(check, result);
+            }
         }
+
+        return result;
     }
 
-    @Override
-    public void searchValue() {
-        System.out.println("Поиск по : \n " +
-                "1. Фамилии \n " +
-                "2. Дате рождения \n " +
-                "3. Полу \n ");
-        Scanner scanner = new Scanner(System.in);
-        int number = scanner.nextInt();
-        long timeSpent;
-
-        Human value = null;
-        long startTime = System.currentTimeMillis();
-        switch (number) {
-            case 1:
-                System.out.println("Введите имя для поиска:");
-                scanner = new Scanner(System.in);
-                value = new Human(scanner.next(), null, null);
-
-                com.JavaLab.ComparatorName comparatorName = new com.JavaLab.ComparatorName();
-                for (int i = 0; array.length > i; i++) {
-                    if (comparatorName.compare(array[i], value) == 0) {
-
-                        System.out.println(" id = " + array[i].getId() +
-                                " Полное имя " + array[i].getName() +
-                                " Дата рождения " + array[i].getBrd() +
-                                " возраст " + array[i].getAge() +
-                                " Пол " + array[i].getSex());
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-
-            case 2:
-
-                System.out.println("Введите дату рождения для поиска (dd.mm.yyyy):");
-                scanner = new Scanner(System.in);
-
-                org.joda.time.LocalDate inputDate;
-                inputDate = org.joda.time.LocalDate.parse(scanner.next(), DateTimeFormat.forPattern("dd.MM.yyyy"));
-
-                value = new Human(null, inputDate, null);
-
-                com.JavaLab.ComparatorBrd comparatorBrd = new com.JavaLab.ComparatorBrd();
-                for (int i = 0; array.length > i; i++) {
-                    if (comparatorBrd.compare(array[i], value) == 0) {
-
-                        System.out.println(" id = " + array[i].getId() +
-                                " Полное имя " + array[i].getName() +
-                                " Дата рождения " + array[i].getBrd() +
-                                " возраст " + array[i].getAge() +
-                                " Пол " + array[i].getSex());
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-            case 3:
-
-                System.out.println("Введите дату рождения для поиска (dd.mm.yyyy):");
-                scanner = new Scanner(System.in);
-                value = new Human(null, null, scanner.next());
-
-                com.JavaLab.ComparatorSex comparatorSex = new com.JavaLab.ComparatorSex();
-                for (int i = 0; array.length > i; i++) {
-                    if (comparatorSex.compare(array[i], value) == 0) {
-
-                        System.out.println(" id = " + array[i].getId() +
-                                " Полное имя " + array[i].getName() +
-                                " Дата рождения " + array[i].getBrd() +
-                                " возраст " + array[i].getAge() +
-                                " Пол " + array[i].getSex());
-                    }
-                }
-                timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("*программа выполнялась " + timeSpent + " миллисекунд*");
-                break;
-        }
-    }
 }
