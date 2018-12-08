@@ -1,16 +1,10 @@
 package com.JavaLab;
 
 import com.JavaLab.Checkers.Checker;
-import com.JavaLab.Checkers.CheckerName;
-import com.JavaLab.Comparator.ComparatorBrd;
-import com.JavaLab.Comparator.ComparatorSex;
-import com.JavaLab.Interfaceses.InterafaceSort;
-import com.JavaLab.Interfaceses.InterfaceSearch;
 import com.JavaLab.Sorters.Sort;
-import org.joda.time.format.DateTimeFormat;
+import org.apache.log4j.Logger;
 
 import java.util.Comparator;
-import java.util.Scanner;
 
 /**
  * Репозиторий людей
@@ -26,11 +20,14 @@ public class Repository {
 
     private Sort sort;
 
+    private static final Logger logger = Logger.getLogger(Repository.class);
     /**
      * конструктор, который создаёт массив
      */
     Repository(Sort sort) {
         this.array = new Human[0];
+
+
         this.sort = sort;
     }
 
@@ -39,7 +36,6 @@ public class Repository {
         Human[] res = new Human[length];
         System.arraycopy(a, 0, res, 0, a.length);
         System.arraycopy(b, 0, res, a.length, b.length);
-
         return res;
     }
 
@@ -51,6 +47,8 @@ public class Repository {
     public void insert(Human human) {
         Human[] oneHuman = {human};
         this.array = concat(array, oneHuman);
+
+        logger.info("person added");
     }
 
     /**
@@ -69,6 +67,7 @@ public class Repository {
                 System.out.println("Человек удалён");
             }
         }
+        logger.info("person deleted");
     }
 
     /**

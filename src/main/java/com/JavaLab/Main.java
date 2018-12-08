@@ -6,7 +6,6 @@ import com.JavaLab.Checkers.CheckerSex;
 import com.JavaLab.Comparator.ComparatorBrd;
 import com.JavaLab.Comparator.ComparatorName;
 import com.JavaLab.Comparator.ComparatorSex;
-import com.JavaLab.Interfaceses.InterafaceSort;
 import com.JavaLab.Sorters.BubbleSort;
 import com.JavaLab.Sorters.SelectionSort;
 import org.joda.time.DateTime;
@@ -14,8 +13,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import javax.naming.CompositeName;
 import java.util.Scanner;
+import org.apache.log4j.Logger;
 
 /**
  * Класс для открывания консоли пользователю, выбора из списка действий
@@ -28,6 +27,7 @@ public class Main {
      */
     static Repository repository;
 
+    private static final Logger logger = Logger.getLogger(Main.class);
     /**
      * главный метод для запуска
      *
@@ -40,6 +40,9 @@ public class Main {
         System.out.println("2 - Выбором");
         int sortType = scanner.nextInt();
         scanner.nextLine();
+
+        logger.info("select sort number: " + sortType);
+
         switch (sortType) {
             case 1:
                 repository = new Repository(new BubbleSort());
@@ -63,6 +66,7 @@ public class Main {
                     "7. Выход");
             scanner = new Scanner(System.in);
             int number = scanner.nextInt();
+            logger.info("select item number : " + sortType);
             switch (number) {
                 case 1:
                     newPerson();
@@ -128,6 +132,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
 
+        logger.info("new man, name: " + name);
+
         System.out.println("Введите дату рождения (dd.mm.yyyy):");
         scanner = new Scanner(System.in);
         String brd = scanner.nextLine();
@@ -142,9 +148,13 @@ public class Main {
             return;
         }
 
+        logger.info("new man, brd: " + brd);
+
         System.out.println("Введите пол (female или male):");
         scanner = new Scanner(System.in);
         String sex = scanner.nextLine();
+
+        logger.info("new man, sex: " + sex);
 
         Human human = new Human(name, inputDate, sex);
         repository.insert(human);
@@ -158,6 +168,7 @@ public class Main {
         int length = repository.getLength();
         if (length == 0) {
             System.out.println("пусто");
+            logger.info("an empty repository");
         } else {
             for (int i = 0; length > i; i++) {
                 System.out.println(" id = " + repository.getHumanIndex(i).getId() +
@@ -177,6 +188,7 @@ public class Main {
         System.out.println("Введите id: ");
         Scanner scanner = new Scanner(System.in);
         int id = scanner.nextInt();
+        logger.info("id to delete a person number : " + id);
         repository.delete(id);
     }
 
@@ -214,14 +226,17 @@ public class Main {
         int number = scanner.nextInt();
         switch (number) {
             case 1:
+                logger.info("sorting by name is selected");
                 repository.sortBy(new ComparatorName());
                 viewPersons();
                 break;
             case 2:
+                logger.info("sorting by brd is selected");
                 repository.sortBy(new ComparatorBrd());
                 viewPersons();
                 break;
             case 3:
+                logger.info("sorting by sex is selected");
                 repository.sortBy(new ComparatorSex());
                 viewPersons();
                 break;
@@ -245,18 +260,21 @@ public class Main {
                 scanner = new Scanner(System.in);
                 String value = scanner.next();
                 forSearch = repository.searchBy(new CheckerName(), value);
+                logger.info("selected search by name with the value of :" + value);
                 break;
             case 2:
                 System.out.println("Введите значение для поиска ");
                 scanner = new Scanner(System.in);
                 value = scanner.next();
                 forSearch = repository.searchBy(new CheckerBrd(), value);
+                logger.info("selected search by brd with the value of :" + value);
                 break;
             case 3:
                 System.out.println("Введите значение для поиска ");
                 scanner = new Scanner(System.in);
                 value = scanner.next();
                 forSearch = repository.searchBy(new CheckerSex(), value);
+                logger.info("selected search by sex with the value of :" + value);
                 break;
         }
 
