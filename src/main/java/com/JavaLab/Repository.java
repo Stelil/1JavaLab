@@ -1,34 +1,36 @@
 package com.JavaLab;
 
+import com.JavaLab.Annotations.AutoInjectable;
 import com.JavaLab.Checkers.Checker;
+import com.JavaLab.Injectors.Injector;
 import com.JavaLab.Sorters.Sort;
+
 import org.apache.log4j.Logger;
 
 import java.util.Comparator;
 
 /**
  * Репозиторий людей
- *
  * @author Воротников Дмитрий
  */
-public class Repository {
+class Repository {
 
     /**
      * массив людей
      */
     private Human[] array;
 
-    private Sort sort;
+    @AutoInjectable()
+    private String sort = "qweqweqwe";
 
     private static final Logger logger = Logger.getLogger(Repository.class);
     /**
      * конструктор, который создаёт массив
      */
-    Repository(Sort sort) {
+    public Repository() {
         this.array = new Human[0];
 
-
-        this.sort = sort;
+        System.out.println(this.sort);
     }
 
     private Human[] concat(Human[] a, Human[] b) {
@@ -105,7 +107,8 @@ public class Repository {
     }
 
     public void sortBy(Comparator comparator) {
-        this.array = sort.sort(this.array, comparator);
+        System.out.println(sort);
+        //this.array = sort.sort(this.array, comparator);
     }
 
     public Human[] searchBy(Checker checker, Object value) {

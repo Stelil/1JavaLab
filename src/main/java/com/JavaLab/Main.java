@@ -6,6 +6,7 @@ import com.JavaLab.Checkers.CheckerSex;
 import com.JavaLab.Comparator.ComparatorBrd;
 import com.JavaLab.Comparator.ComparatorName;
 import com.JavaLab.Comparator.ComparatorSex;
+import com.JavaLab.Injectors.Injector;
 import com.JavaLab.Sorters.BubbleSort;
 import com.JavaLab.Sorters.SelectionSort;
 import org.joda.time.DateTime;
@@ -34,23 +35,27 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Выберите сортировку:");
-        System.out.println("1 - Пузырек");
-        System.out.println("2 - Выбором");
-        int sortType = scanner.nextInt();
-        scanner.nextLine();
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.println("Выберите сортировку:");
+        //System.out.println("1 - Пузырек");
+        //System.out.println("2 - Выбором");
+        //int sortType = scanner.nextInt();
+        //scanner.nextLine();
 
-        logger.info("select sort number: " + sortType);
+        //logger.info("select sort number: " + sortType);
 
-        switch (sortType) {
-            case 1:
-                repository = new Repository(new BubbleSort());
-                break;
-            case 2:
-                repository = new Repository(new SelectionSort());
-                break;
-        }
+        //switch (sortType) {
+        //    case 1:
+        //        repository = new Repository();
+        //        break;
+        //    case 2:
+        //        repository = new Repository();
+        //        break;
+        //}
+
+        Injector inj = new Injector();
+        inj.inject(new Repository());
+        repository = new Repository();
 
         addPersons();
 
@@ -64,9 +69,9 @@ public class Main {
                     "5. Отсортировать репозиторий \n " +
                     "6. Поиск в репозитории \n " +
                     "7. Выход");
-            scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             int number = scanner.nextInt();
-            logger.info("select item number : " + sortType);
+            logger.info("select item number : " + number);
             switch (number) {
                 case 1:
                     newPerson();
