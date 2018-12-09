@@ -11,6 +11,7 @@ import java.util.Comparator;
 
 /**
  * Репозиторий людей
+ *
  * @author Воротников Дмитрий
  */
 class Repository {
@@ -21,16 +22,15 @@ class Repository {
     private Human[] array;
 
     @AutoInjectable()
-    private String sort = "qweqweqwe";
+    private Sort sort;
 
     private static final Logger logger = Logger.getLogger(Repository.class);
+
     /**
      * конструктор, который создаёт массив
      */
-    public Repository() {
+    Repository() {
         this.array = new Human[0];
-
-        System.out.println(this.sort);
     }
 
     private Human[] concat(Human[] a, Human[] b) {
@@ -108,7 +108,7 @@ class Repository {
 
     public void sortBy(Comparator comparator) {
         System.out.println(sort);
-        //this.array = sort.sort(this.array, comparator);
+        this.array = sort.sort(this.array, comparator);
     }
 
     public Human[] searchBy(Checker checker, Object value) {

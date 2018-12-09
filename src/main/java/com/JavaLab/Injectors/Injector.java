@@ -16,12 +16,9 @@ public class Injector implements InterfaceInjector {
             for (Field field : fields) {
                 if (field.isAnnotationPresent(AutoInjectable.class)) {
                     field.setAccessible(true);
-                    String sortString = propert();
-                    //field.set(object, Class.forName(sortString).newInstance());
-
-                    field.set(object, sortString);
-
-                    System.out.println(field.get(object));
+                    String sortString = properties();
+                    Object sort = Class.forName(sortString).newInstance();
+                    field.set(object, sort);
                 }
             }
         } catch (Exception e) {
@@ -30,7 +27,7 @@ public class Injector implements InterfaceInjector {
         return null;
     }
 
-    private String propert() {
+    private String properties() {
         String res = "";
         FileInputStream fileInputStream;
         Properties prop = new Properties();
