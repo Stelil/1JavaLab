@@ -16,9 +16,10 @@ public class Injector  {
             for (Field field : fields) {
                 if (field.isAnnotationPresent(AutoInjectable.class)) {
                     field.setAccessible(true);
-                    String sortString = properties();
+                    String type = field.getType().getName();
+                    System.out.println(type);
+                    String sortString = properties(type);
                     Object sort = Class.forName(sortString).newInstance();
-                    System.out.println(sort);
                     field.set(object, sort);
                 }
             }
@@ -28,14 +29,14 @@ public class Injector  {
         return object;
     }
 
-    private String properties() {
+    private String properties(String type) {
         String res = "";
         FileInputStream fileInputStream;
         Properties prop = new Properties();
         try {
             fileInputStream = new FileInputStream(PATH_TO_PROPERTIES);
             prop.load(fileInputStream);
-            res = prop.getProperty("com.JavaLab.Sorters.Sort");
+            res = prop.getProperty(type);
         } catch (Exception e) {
         }
 

@@ -108,7 +108,6 @@ class Repository {
     }
 
     public void sortBy(Comparator comparator) {
-        System.out.println(sort);
         this.array = sort.sort(this.array, comparator);
     }
 
