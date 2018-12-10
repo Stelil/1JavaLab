@@ -36,7 +36,7 @@ public class Human {
      * @param brd  поле дня рождения
      * @param sex  поле пола
      */
-    Human(String name, LocalDate brd, String sex) {
+    public Human(String name, LocalDate brd, String sex) {
         this.name = name;
         this.brd = brd;
         this.sex = sex;

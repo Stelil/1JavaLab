@@ -31,6 +31,7 @@ class Repository {
      */
     Repository() {
         this.array = new Human[0];
+
     }
 
     private Human[] concat(Human[] a, Human[] b) {

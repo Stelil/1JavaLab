@@ -7,14 +7,13 @@ import com.JavaLab.Comparator.ComparatorBrd;
 import com.JavaLab.Comparator.ComparatorName;
 import com.JavaLab.Comparator.ComparatorSex;
 import com.JavaLab.Injectors.Injector;
-import com.JavaLab.Sorters.BubbleSort;
-import com.JavaLab.Sorters.SelectionSort;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Scanner;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -29,33 +28,15 @@ public class Main {
     static Repository repository;
 
     private static final Logger logger = Logger.getLogger(Main.class);
+
     /**
      * главный метод для запуска
      *
      * @param args
      */
     public static void main(String[] args) {
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Выберите сортировку:");
-        //System.out.println("1 - Пузырек");
-        //System.out.println("2 - Выбором");
-        //int sortType = scanner.nextInt();
-        //scanner.nextLine();
 
-        //logger.info("select sort number: " + sortType);
-
-        //switch (sortType) {
-        //    case 1:
-        //        repository = new Repository();
-        //        break;
-        //    case 2:
-        //        repository = new Repository();
-        //        break;
-        //}
-
-        Injector inj = new Injector();
-        inj.inject(new Repository());
-        repository = new Repository();
+        repository = new Injector().inject(new Repository());
 
         addPersons();
 
@@ -253,9 +234,9 @@ public class Main {
      */
     private static void SearchValue() {
         System.out.println("Поиск по : \n " +
-            "1. Имени \n " +
-            "2. Году рождения \n " +
-            "3. Полу");
+                "1. Имени \n " +
+                "2. Году рождения \n " +
+                "3. Полу");
         Scanner scanner = new Scanner(System.in);
         int number = scanner.nextInt();
         Human[] forSearch = new Human[0];
@@ -283,7 +264,7 @@ public class Main {
                 break;
         }
 
-        for (int i = 0; forSearch.length>i; i++){
+        for (int i = 0; forSearch.length > i; i++) {
             System.out.println(" id = " + forSearch[i].getId() +
                     " Полное имя " + forSearch[i].getName() +
                     " Дата рождения " + forSearch[i].getBrd() +
