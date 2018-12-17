@@ -23,7 +23,7 @@ public class Human {
     /**
      * поле id
      */
-    private int id;
+    private Integer id;
     /**
      * поле idб которое копится
      */
@@ -63,7 +63,7 @@ public class Human {
      *
      * @return возврщает id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

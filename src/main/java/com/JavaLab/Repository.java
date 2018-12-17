@@ -60,14 +60,13 @@ class Repository {
      * @param id id под которым человек записан в массиве
      */
     public void delete(int id) {
-        for (int i = 0; this.array.length > i; ) {
+        for (int i = 0; this.array.length > i; i++) {
             if (this.array[i].getId() == id) {
                 int length = this.array.length - 1;
                 Human[] newArr = new Human[length];
                 System.arraycopy(this.array, 0, newArr, 0, i);
                 System.arraycopy(this.array, i + 1, newArr, i, this.array.length - i - 1);
                 this.array = newArr;
-                System.out.println("Человек удалён");
             }
         }
         logger.info("person deleted");
