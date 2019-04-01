@@ -13,17 +13,14 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
 import org.w3c.dom.*;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -32,7 +29,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 
 import java.io.File;
-import java.util.logging.Level;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -115,7 +111,15 @@ public class Main {
                     jaxb();
                     break;
                 case 12:
-                    parseJaxb();
+                    Repository unmarshStudent = parseJaxb("jaxb.xml");
+                    if (unmarshStudent != null) {
+                        for (int i = 0; unmarshStudent.getLength() > i; i ++) {
+                            Human human = new Human(unmarshStudent.getHumanIndex(0).getName(),
+                                    unmarshStudent.getHumanIndex(0).getBrd(), unmarshStudent.getHumanIndex(0).getSex());
+                            repository.insert(human);
+                        }
+                    }
+                    //parseJaxb();
                     break;
             }
         }
@@ -181,7 +185,7 @@ public class Main {
                     LocalDate inputDate = LocalDate.parse(eElement
                             .getElementsByTagName("Brd")
                             .item(0)
-                            .getTextContent(), DateTimeFormat.forPattern("yyyy-mm-dd"));
+                            .getTextContent(), DateTimeFormat.forPattern("yyyy-MM-dd"));
 
                     Human h = new Human(eElement
                             .getElementsByTagName("Name")
@@ -217,30 +221,25 @@ public class Main {
     static void jaxb() {
         String fileName = "jaxb.xml";
         try {
-            JAXBContext context = JAXBContext.newInstance(Human.class, Students.class);
+            JAXBContext context = JAXBContext.newInstance(Repository.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            Students students = new Students();
-            for (int i = 0; repository.getLength() > i; i++) {
-                Human human = new Human();
-                human.setId(repository.getHumanIndex(i).getId());
-                human.setName(repository.getHumanIndex(i).getName());
-                human.setBrd(repository.getHumanIndex(i).getBrd());
-                human.setSex(repository.getHumanIndex(i).getSex());
-                students.student.add(human);
-
-            }
-            marshaller.marshal(students, new File(fileName));
-
+            marshaller.marshal(repository, new File(fileName));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
 
-    static void parseJaxb() {
-
+    static Repository parseJaxb(String fileName) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Repository.class);
+            Unmarshaller un = jaxbContext.createUnmarshaller();
+            return (Repository) un.unmarshal(new File(fileName));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
 
     /**
      * Создание стандартных людей

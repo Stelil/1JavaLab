@@ -6,6 +6,10 @@ import com.JavaLab.sorters.Sort;
 
 import org.apache.log4j.Logger;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Comparator;
 
 /**
@@ -13,11 +17,14 @@ import java.util.Comparator;
  *
  * @author Воротников Дмитрий
  */
+@XmlRootElement(name = "students")
+@XmlType(propOrder = {"array"})
 class Repository {
 
     /**
      * массив людей
      */
+    @XmlElement(name = "student")
     private Human[] array;
 
     @AutoInjectable()

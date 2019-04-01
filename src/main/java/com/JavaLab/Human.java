@@ -1,50 +1,42 @@
 package com.JavaLab;
 
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
-
-@XmlType(name = "students")
-@XmlRootElement
-class Students {
-    @XmlElementWrapper(name = "student", nillable = true)
-    public List student = new ArrayList();
-}
 
 /**
  * Класс со свойствами name, brd, sex, id, idHuman
  *
  * @author Воротников Дмитрий
  */
-@XmlType(name = "student")
+@XmlType(propOrder = {"id", "name", "brd", "sex"})
 public class Human {
     /**
      * поле id
      */
-    @XmlElement(name = "id")
     private int id;
     /**
      * поле имени
      */
-    @XmlElement(name = "name")
     private String name;
     /**
      * поле дня рождения
      */
-    @XmlElement(name = "brd")
     private LocalDate brd;
     /**
      * поле пола
      */
-    @XmlElement(name = "sex")
     private String sex;
     /**
-     * поле idб которое копится
+     * поле id, которое копится
      */
     private static int idHuman = 1;
 
@@ -85,6 +77,7 @@ public class Human {
      *
      * @return возврщает id
      */
+    @XmlElement()
     public int getId() {
         return id;
     }
@@ -103,6 +96,7 @@ public class Human {
      *
      * @return возвращает имя
      */
+    @XmlElement()
     public String getName() {
         return name;
     }
@@ -121,6 +115,8 @@ public class Human {
      *
      * @return возвращает год рождения
      */
+    @XmlElement()
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     public LocalDate getBrd() {
         return brd;
     }
@@ -139,6 +135,7 @@ public class Human {
      *
      * @return возвращает пол человека
      */
+    @XmlElement()
     public String getSex() {
         return sex;
     }
@@ -150,5 +147,19 @@ public class Human {
      */
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    static public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
+        public LocalDate unmarshal(String v) throws Exception {
+            System.out.println(v);
+            LocalDate inputDate;
+            inputDate = LocalDate.parse(v, DateTimeFormat.forPattern("yyyy-MM-dd"));
+            System.out.println(inputDate);
+            return inputDate;
+        }
+
+        public String marshal(LocalDate v) throws Exception {
+            return v.toString();
+        }
     }
 }
