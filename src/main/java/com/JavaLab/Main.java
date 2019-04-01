@@ -1,20 +1,41 @@
 package com.JavaLab;
 
-import com.JavaLab.Checkers.CheckerBrd;
-import com.JavaLab.Checkers.CheckerName;
-import com.JavaLab.Checkers.CheckerSex;
-import com.JavaLab.Comparator.ComparatorBrd;
-import com.JavaLab.Comparator.ComparatorName;
-import com.JavaLab.Comparator.ComparatorSex;
-import com.JavaLab.Injectors.Injector;
+import com.JavaLab.checkers.CheckerBrd;
+import com.JavaLab.checkers.CheckerName;
+import com.JavaLab.checkers.CheckerSex;
+import com.JavaLab.comparator.ComparatorBrd;
+import com.JavaLab.comparator.ComparatorName;
+import com.JavaLab.comparator.ComparatorSex;
+import com.JavaLab.handler.MyHandler;
+import com.JavaLab.injectors.Injector;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
+
+import org.w3c.dom.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+
+import java.io.File;
+import java.util.logging.Level;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  * Класс для открывания консоли пользователю, выбора из списка действий
@@ -31,6 +52,7 @@ public class Main {
 
     /**
      * главный метод для запусka
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -48,7 +70,12 @@ public class Main {
                     "4. Показать человека по id \n " +
                     "5. Отсортировать репозиторий \n " +
                     "6. Поиск в репозитории \n " +
-                    "7. Выход");
+                    "7. Выход \n " +
+                    "8. Выгрузка в XML с помощью DOM \n " +
+                    "9. Загрузка из XML с помощью DOM \n " +
+                    "10. Загрузка из XML с помощью SAX \n " +
+                    "11. Выгрузка в XML с помощью JAXB \n " +
+                    "12. Загрузка из XML с помощью JAXB \n ");
             Scanner scanner = new Scanner(System.in);
             int number = scanner.nextInt();
             logger.info("select item number : " + number);
@@ -75,9 +102,145 @@ public class Main {
                 case 7:
                     bool = false;
                     break;
+                case 8:
+                    dom();
+                    break;
+                case 9:
+                    parseDom();
+                    break;
+                case 10:
+                    parseSax();
+                    break;
+                case 11:
+                    jaxb();
+                    break;
+                case 12:
+                    parseJaxb();
+                    break;
             }
         }
     }
+
+    static void dom() {
+        try {
+            DocumentBuilderFactory dbFactory =
+                    DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
+
+            Element rootElement = doc.createElement("students");
+            doc.appendChild(rootElement);
+
+            for (int h = 0; repository.getLength() > h; h++) {
+                Element element = doc.createElement("student");
+                rootElement.appendChild(element);
+
+                Element child = doc.createElement("id");
+                child.appendChild(doc.createTextNode(String.valueOf(repository.getHumanIndex(h).getId())));
+                element.appendChild(child);
+                child = doc.createElement("Name");
+                child.appendChild(doc.createTextNode(String.valueOf(repository.getHumanIndex(h).getName())));
+                element.appendChild(child);
+                child = doc.createElement("Brd");
+                child.appendChild(doc.createTextNode(String.valueOf(repository.getHumanIndex(h).getBrd())));
+                element.appendChild(child);
+                child = doc.createElement("Sex");
+                child.appendChild(doc.createTextNode(String.valueOf(repository.getHumanIndex(h).getSex())));
+                element.appendChild(child);
+                child = doc.createElement("Age");
+                child.appendChild(doc.createTextNode(String.valueOf(repository.getHumanIndex(h).getAge())));
+                element.appendChild(child);
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new FileWriter("dom.xml", false));
+            transformer.transform(source, result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void parseDom() {
+        try {
+            File inputFile = new File("dom.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("student");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+
+                    LocalDate inputDate = LocalDate.parse(eElement
+                            .getElementsByTagName("Brd")
+                            .item(0)
+                            .getTextContent(), DateTimeFormat.forPattern("yyyy-mm-dd"));
+
+                    Human h = new Human(eElement
+                            .getElementsByTagName("Name")
+                            .item(0)
+                            .getTextContent(), inputDate, eElement
+                            .getElementsByTagName("Sex")
+                            .item(0)
+                            .getTextContent());
+                    repository.insert(h);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void parseSax() {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        try {
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            MyHandler handler = new MyHandler();
+            saxParser.parse(new File("dom.xml"), handler);
+            List<Human> empList = handler.getEmpList();
+            for (Human emp : empList) {
+                Human human = new Human(emp.getName(), emp.getBrd(), emp.getSex());
+                repository.insert(human);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void jaxb() {
+        String fileName = "jaxb.xml";
+        try {
+            JAXBContext context = JAXBContext.newInstance(Human.class, Students.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            Students students = new Students();
+            for (int i = 0; repository.getLength() > i; i++) {
+                Human human = new Human();
+                human.setId(repository.getHumanIndex(i).getId());
+                human.setName(repository.getHumanIndex(i).getName());
+                human.setBrd(repository.getHumanIndex(i).getBrd());
+                human.setSex(repository.getHumanIndex(i).getSex());
+                students.student.add(human);
+
+            }
+            marshaller.marshal(students, new File(fileName));
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void parseJaxb() {
+
+    }
+
 
     /**
      * Создание стандартных людей

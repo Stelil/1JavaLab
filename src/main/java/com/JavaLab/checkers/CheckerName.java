@@ -1,11 +1,12 @@
-package com.JavaLab.Checkers;
+package com.JavaLab.checkers;
 
 import com.JavaLab.Human;
 
-public class CheckerBrd implements Checker {
+public class CheckerName implements Checker {
+
     @Override
     public boolean check(Human human, Object object) {
         String str = (String) object;
-        return human.getBrd().equals(str);
+        return human.getName().equals(str);
     }
 }

@@ -1,9 +1,8 @@
 package com.JavaLab;
 
-import com.JavaLab.Annotations.AutoInjectable;
-import com.JavaLab.Checkers.Checker;
-import com.JavaLab.Injectors.Injector;
-import com.JavaLab.Sorters.Sort;
+import com.JavaLab.annotations.AutoInjectable;
+import com.JavaLab.checkers.Checker;
+import com.JavaLab.sorters.Sort;
 
 import org.apache.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package com.JavaLab.Comparator;
+package com.JavaLab.comparator;
 
 import com.JavaLab.Human;
 

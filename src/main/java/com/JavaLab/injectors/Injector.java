@@ -1,6 +1,6 @@
-package com.JavaLab.Injectors;
+package com.JavaLab.injectors;
 
-import com.JavaLab.Annotations.AutoInjectable;
+import com.JavaLab.annotations.AutoInjectable;
 
 import java.io.FileInputStream;
 import java.lang.reflect.Field;

@@ -2,28 +2,47 @@ package com.JavaLab;
 
 import org.joda.time.LocalDate;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
+
+@XmlType(name = "students")
+@XmlRootElement
+class Students {
+    @XmlElementWrapper(name = "student", nillable = true)
+    public List student = new ArrayList();
+}
+
 /**
  * Класс со свойствами name, brd, sex, id, idHuman
  *
  * @author Воротников Дмитрий
  */
+@XmlType(name = "student")
 public class Human {
+    /**
+     * поле id
+     */
+    @XmlElement(name = "id")
+    private int id;
     /**
      * поле имени
      */
+    @XmlElement(name = "name")
     private String name;
     /**
      * поле дня рождения
      */
+    @XmlElement(name = "brd")
     private LocalDate brd;
     /**
      * поле пола
      */
+    @XmlElement(name = "sex")
     private String sex;
-    /**
-     * поле id
-     */
-    private int id;
     /**
      * поле idб которое копится
      */
@@ -42,6 +61,9 @@ public class Human {
         this.sex = sex;
         this.id = idHuman;
         idHuman++;
+    }
+
+    public Human() {
     }
 
     /**

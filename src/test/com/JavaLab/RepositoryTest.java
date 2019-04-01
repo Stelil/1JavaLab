@@ -1,16 +1,15 @@
 package com.JavaLab;
 
-import com.JavaLab.Checkers.CheckerName;
-import com.JavaLab.Checkers.CheckerSex;
-import com.JavaLab.Comparator.ComparatorBrd;
-import com.JavaLab.Comparator.ComparatorName;
-import com.JavaLab.Comparator.ComparatorSex;
-import com.JavaLab.Injectors.Injector;
+import com.JavaLab.checkers.CheckerName;
+import com.JavaLab.checkers.CheckerSex;
+import com.JavaLab.comparator.ComparatorBrd;
+import com.JavaLab.comparator.ComparatorName;
+import com.JavaLab.comparator.ComparatorSex;
+import com.JavaLab.injectors.Injector;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Assert;
 import org.junit.Test;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import static org.junit.Assert.*;
 

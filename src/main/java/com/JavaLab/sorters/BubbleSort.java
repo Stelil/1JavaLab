@@ -1,4 +1,4 @@
-package com.JavaLab.Sorters;
+package com.JavaLab.sorters;
 
 import com.JavaLab.Human;
 

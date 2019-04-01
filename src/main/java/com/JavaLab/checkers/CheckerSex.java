@@ -1,4 +1,4 @@
-package com.JavaLab.Checkers;
+package com.JavaLab.checkers;
 
 import com.JavaLab.Human;
 
