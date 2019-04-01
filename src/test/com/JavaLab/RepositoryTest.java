@@ -44,17 +44,15 @@ public class RepositoryTest {
         Human h = new Human("adam", inputDate, "male");
         repository.insert(h);
 
-        //inputDate = LocalDate.parse("11.11.1996", DateTimeFormat.forPattern("dd.MM.yyyy"));
-        //h = new Human("qwe", inputDate, "female");
-        //repository.insert(h);
+        inputDate = LocalDate.parse("11.11.1996", DateTimeFormat.forPattern("dd.MM.yyyy"));
+        h = new Human("qwe", inputDate, "female");
+        repository.insert(h);
 
         int lengthAfterDelete = repository.getLength() - 1;
 
-        System.out.println(repository.getLength() + " " + lengthAfterDelete);
+        repository.delete(2);
 
-        repository.delete(1);
-
-        //Assert.assertEquals(repository.getLength(), lengthAfterDelete);
+        Assert.assertEquals(repository.getLength(), lengthAfterDelete);
 
     }
 
@@ -68,20 +66,6 @@ public class RepositoryTest {
         repository.insert(h);
 
         Assert.assertEquals(repository.getHumanId(1), h);
-    }
-
-    @Test
-    public void getHumanIndex() {
-
-        Repository repository = new Repository();
-
-        LocalDate inputDate;
-        inputDate = LocalDate.parse("15.12.1994", DateTimeFormat.forPattern("dd.MM.yyyy"));
-        Human h = new Human("adam", inputDate, "male");
-        repository.insert(h);
-
-        Assert.assertEquals(repository.getHumanIndex(1), h);
-
     }
 
     @Test
